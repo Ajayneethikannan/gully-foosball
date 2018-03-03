@@ -11,7 +11,7 @@ blue[2]=new players(250,2*height/3,500/3,500);
 blue[3]=new players(625,height/4,0,500/2);
 blue[4]=new players(625,2*height/4,500/4,3*500/4);
 blue[5]=new players(625,3*height/4,500/2,500);
-red[0]=new enemy(875,height/2,500/3,1000/3);
+red[0]=new enemy(875,height/2,600/3,900/3);
 red[1]=new enemy(750,height/3,0,1000/3);
 red[2]=new enemy(750,2*height/3,500/3,500);
 red[3]=new enemy(375,height/4,0,500/2);
@@ -30,7 +30,7 @@ function draw() {
   back();
   detect(); //enemy AI
     move();   // function to move the players
-
+    collide();
 
   for(var i=0;i<6;i++)
   {
@@ -57,11 +57,33 @@ function detect()
 {
 	if(ball.y>250)
 	{
-		for(var i=0;i<6;i++)red[i].dy=-3;
-	}
+		for(var i=0;i<3;i++)red[i].dy=4;
+
+			if(ball.x>375)
+			{
+				for(var i=3;i<6;i++)red[i].dy=-4;
+
+			}
+		else 
+
+		{
+			for(var i=3;i<6;i++)red[i].dy=4;
+		}
+	}                                            //differnt setting for attacker and defenders
 else
 {
-	for(var i=0;i<6;i++)red[i].dy=5;
+	for(var i=0;i<3;i++)red[i].dy=-4;
+
+			if(ball.x>375)
+			{
+				for(var i=3;i<6;i++)red[i].dy=4;
+
+			}
+		else 
+
+		{
+			for(var i=3;i<6;i++)red[i].dy=-4;
+		}
 }
 }
 //drawing the boundary lines
@@ -99,7 +121,7 @@ this.move=function(dir)
 {
 	this.y=this.y+dir;
 	this.y=constrain(this.y,cy1,cy2);
-
+    
 
 }
 
@@ -186,10 +208,11 @@ function BALL()
 
    }
 
-   this.collide=function()  //creating the 'kicking by players' detection 
-   {
 
-   }
+
+
+
+   
     
    this.goal=function()
    {
@@ -209,6 +232,10 @@ function BALL()
    }
 
 }
+
+
+
+
 
 
 //function to introduce controls
@@ -256,4 +283,39 @@ function move()
 			blue[5].move(5);
 		
 	}
+}
+
+function collide()
+{
+
+   for(var i=0;i<6;i++)
+   {
+
+
+   	if(  ball.x >=blue[i].x-10 && ball.x<=blue[i].x+10)
+   	{
+   		if(ball.y >=(blue[i].y-25) && ball.y <=(blue[i].y+25))
+   		{
+   			ball.dx*=-1;
+   			ball.x=ball.x+4*ball.dx;
+   		}
+   	}
+   }
+
+    for(var i=0;i<6;i++)
+   {
+
+
+   	if(  ball.x >=red[i].x-10 && ball.x<=red[i].x+10)
+   	{
+   		if(ball.y >=(red[i].y-25) && ball.y <=(red[i].y+25))
+   		{
+   			ball.dx*=-1;
+   			ball.x=ball.x+4*ball.dx;
+   		}
+   	}
+   }
+
+
+
 }
