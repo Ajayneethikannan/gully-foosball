@@ -1,17 +1,25 @@
+
+var play=0,enem=0;
 function setup() {
-var canvas=createCanvas(1000,500);
-//blue or red??
-var flag=1;
-//for now
+var canvas=createCanvas(1000,600);
+
+
+//creating the array for team members
 blue=[];
 red=[];
-blue[0]=new players(125,height/2,500/3,1000/3); // must be improved
+       //creating the score variables
+
+// creating the team members
+
+
+
+blue[0]=new players(125,height/2,100,400); 
 blue[1]=new players(250,height/3,0,1000/3);
 blue[2]=new players(250,2*height/3,500/3,500);
 blue[3]=new players(625,height/4,0,500/2);
 blue[4]=new players(625,2*height/4,500/4,3*500/4);
 blue[5]=new players(625,3*height/4,500/2,500);
-red[0]=new enemy(875,height/2,600/3,900/3);
+red[0]=new enemy(875,height/2,100,400);
 red[1]=new enemy(750,height/3,0,1000/3);
 red[2]=new enemy(750,2*height/3,500/3,500);
 red[3]=new enemy(375,height/4,0,500/2);
@@ -19,6 +27,10 @@ red[4]=new enemy(375,2*height/4,500/4,3*500/4);
 red[5]=new enemy(375,3*height/4,500/2,500);
 width=1000;
 height=500;
+
+
+
+//creating the ball object
 ball=new BALL();
 
 }
@@ -26,11 +38,20 @@ ball=new BALL();
 
 
 function draw() {
-  background(78, 178, 7);
-  back();
-  detect(); //enemy AI
-    move();   // function to move the players
-    collide();
+   background(78, 178, 7); //creates the background
+   back();    //creates the field
+   detect(); //enemy AI
+   move();   // function to move the players
+   collide();
+   textSize(30); 
+   var str="";
+   var str1="";
+   str+=play;
+   str1+=enem;
+   text(str,10,590);
+   text("YOU",40,590);
+   text(str1,980,590);
+   text("OPP",900,590);
 
   for(var i=0;i<6;i++)
   {
@@ -44,18 +65,27 @@ function draw() {
    ball.move();
    if(ball.goal())
    {
-   	print("goal!!!!!");
+   	alert("goal!!!!!");
+   	alert("press ok to continue the game");
    	ball.x=500;
    	ball.y=250;
    }
    ball.show();
   
 
+
 }
 
-function detect()
+
+
+
+
+
+
+
+function detect()   // gives the motiion of the opponent team for different positions of the ball
 {
-	if(ball.y>250)
+if(ball.y>250)
 	{
 		for(var i=0;i<3;i++)red[i].dy=4;
 
@@ -86,7 +116,16 @@ else
 		}
 }
 }
-//drawing the boundary lines
+
+
+
+
+
+
+
+
+
+//drawing the field
 function back()
 {
  stroke(51);
@@ -97,13 +136,21 @@ for(var i=0;i<7;i++)
  stroke(51)
  noFill();
  ellipse(width/2,height/2,100,100);
- rect(0,height/2,75,100);
- rect(width,height/2,75,100);
+ rect(0,height/2,75,300);
+ rect(width,height/2,75,300);
  rect(width/2,height/2,1000,500);
 }
 
 
-//creating players
+
+
+
+
+
+
+
+
+//creating players-->constructor function for the player object
 function players(ix,iy,cy1,cy2)
 {
 
@@ -143,7 +190,10 @@ this.show=function()
 	
 }
 
-//creating enemies
+//creating the opponent object 
+
+
+
 function enemy(ix,iy,cy1,cy2)
 {
 
@@ -216,11 +266,16 @@ function BALL()
     
    this.goal=function()
    {
-   	if(this.x==0 || this.x==1000)
+   	if(this.x<=10 || this.x>=990)
    	{
-   		if(this.y>100 && this.y<300)return 1;
-   		else return 0;
+   		if(this.y>100 && this.y<400)
+   			{   if(this.x<=10)enem++;
+   				else play++;
+   				return 1;
+   			}
 
+   		else return 0;
+            
    	}
    }
    this.show=function()
@@ -312,6 +367,8 @@ function collide()
    		{
    			ball.dx*=-1;
    			ball.x=ball.x+4*ball.dx;
+
+   			        //moving the ball according to the direction of movement of the enemy
    		}
    	}
    }
