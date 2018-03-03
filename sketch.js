@@ -28,7 +28,7 @@ ball=new BALL();
 function draw() {
   background(78, 178, 7);
   back();
-  
+  detect(); //enemy AI
     move();   // function to move the players
 
 
@@ -36,7 +36,7 @@ function draw() {
   {
   	
   	blue[i].show();
-
+    red[i].move();
   	red[i].show();
   
   }
@@ -53,6 +53,17 @@ function draw() {
 
 }
 
+function detect()
+{
+	if(ball.y>250)
+	{
+		for(var i=0;i<6;i++)red[i].dy=-3;
+	}
+else
+{
+	for(var i=0;i<6;i++)red[i].dy=5;
+}
+}
 //drawing the boundary lines
 function back()
 {
@@ -82,7 +93,7 @@ this.y=iy;
 
 //speed variables. no need to create for x direction.
 
-this.dy=0.4;
+this.dy=0;
 //this creates the moving effect
 this.move=function(dir)
 {
@@ -122,11 +133,11 @@ this.y=iy;
 
 //speed variables. no need to create for x direction.
 
-this.dy=0.4;
+this.dy=0;
 //this creates the moving effect
-this.move=function(dir)
+this.move=function()
 {
-	this.y=this.y+dir;
+	this.y=this.y+this.dy;
 	this.y=constrain(this.y,cy1,cy2);
 
 
