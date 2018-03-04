@@ -286,6 +286,9 @@ function BALL()
    	ellipse(this.x,this.y,20,20);
    }
 
+   this.ddy=3;
+   this.ddx=3;
+
 }
 
 
@@ -375,4 +378,35 @@ function collide()
 
 
 
+}
+
+
+
+
+function reset()
+{
+
+	ball.x=500;
+	ball.y=250;
+	play=0;
+	enem=0;
+	ball.dx=0;
+	ball.dy=0;
+
+}
+
+function leplay()
+{
+      
+      ball.dx=ball.ddx;
+      ball.dy=ball.ddy;
+
+}
+
+function lepause()
+{
+    ball.ddx=ball.dx;
+    ball.ddy=ball.dy;
+	ball.dx=0;
+	ball.dy=0;
 }
